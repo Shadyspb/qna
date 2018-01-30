@@ -1,21 +1,40 @@
 class AnswersController < ApplicationController
-
-  def new
-    @answer = Answer.new
-  end
+  before_action :authenticate_user!
+  before_action :load_question, only: [:create, :destroy]
+  before_action :load_answer, only: [:destroy]
 
   def create
-    @question = Question.find(params[:question_id])
-    @answer = @question.answers.new(answer_params)
+    @answer = current_user.answers.new(answer_params)
+    @answer.question = @question
 
     if @answer.save
+      flash[:notice] = 'Your Answer created successfully'
       redirect_to @question
     else
+      flash[:notice] = 'Something is wrong'
       render :new
     end
   end
 
+  def destroy
+    if current_user.author_of?(@answer)
+      @answer.destroy
+      flash[:notice] = 'Answer successfully deleted.'
+     else
+      flash[:notice] = 'Only author of the answer can delete it'
+    end
+    redirect_to question_path(@question)
+  end
+
   private
+
+  def load_question
+    @question = Question.find(params[:question_id])
+  end
+
+  def load_answer
+    @answer = Answer.find(params[:id])
+  end
 
   def answer_params
     params.require(:answer).permit(:body)

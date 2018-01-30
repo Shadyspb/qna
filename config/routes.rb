@@ -4,5 +4,5 @@ Rails.application.routes.draw do
     resources :answers
   end
 
-  root to: "questions#index"
+  root "questions#index"
 end

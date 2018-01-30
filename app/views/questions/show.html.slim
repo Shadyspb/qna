@@ -1,0 +1,21 @@
+div
+  = @question.title
+  = @question.body
+
+- if current_user&.author_of?(@question)
+  = link_to 'Delete Question', question_path(@question), method: :delete
+
+div
+  - @question.answers.each do |answer|
+    div
+      = answer.body
+      = answer.updated_at.to_s
+      - if current_user&.author_of?(answer)
+        = link_to 'Delete Answer', question_answer_path(@question, answer), method: :delete
+
+
+- if user_signed_in?
+  = form_for [ @question, @answer ], remote: true do |form|
+   = form.label :body, 'Your Answer'
+   = form.text_area :body
+   = form.submit 'Answer'

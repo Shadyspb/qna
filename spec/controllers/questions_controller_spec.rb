@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
+  let(:user) { @user || create(:user) }
+  let(:question) { create(:question, user: user) }
 
   describe 'GET #index' do
-    let(:questions) { create_list(:question, 2) }
+    let(:questions) { create_list(:question, 2, user: user) }
 
     before { get :index }
 
@@ -18,15 +19,15 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
-      before { get :show, params: { id: question } }
+    before { get :show, params: { id: question } }
 
-      it 'assings the requested question to @question' do
-        expect(assigns(:question)).to eq question
-      end
+    it 'assings the requested question to @question' do
+      expect(assigns(:question)).to eq question
+    end
 
-      it 'renders show view' do
-        expect(response).to render_template :show
-      end
+    it 'renders show view' do
+      expect(response).to render_template :show
+    end
   end
 
   describe 'GET #edit' do
@@ -103,6 +104,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'invalid attributes' do
+      before { patch :update, params: { id: question, question: { title: 'MyString', body: 'MyText'} } }
       before { patch :update, params: { id: question, question: { title: 'new title', body: nil} } }
 
       it 'does not change question attributes' do
