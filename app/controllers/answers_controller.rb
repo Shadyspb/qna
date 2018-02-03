@@ -9,10 +9,8 @@ class AnswersController < ApplicationController
 
     if @answer.save
       flash[:notice] = 'Your Answer created successfully'
-      redirect_to @question
     else
       flash[:notice] = 'Answer not create'
-      render 'questions/show'
     end
   end
 
