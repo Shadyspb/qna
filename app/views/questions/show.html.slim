@@ -1,3 +1,4 @@
+
 div
   = @question.title
   = @question.body
@@ -16,6 +17,7 @@ div
 
 - if user_signed_in?
   = form_for [ @question, @answer ], remote: true do |form|
-   = form.label :body, 'Your Answer'
-   = form.text_area :body
-   = form.submit 'Answer'
+    = form.label :body, 'Your Answer'
+    = render 'common/errors', resource: @answer
+    = form.text_area :body
+    = form.submit 'Answer'

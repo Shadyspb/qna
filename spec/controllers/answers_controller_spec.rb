@@ -5,6 +5,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) { @user || create(:user) }
   let(:question) { create(:question, user: user) }
   let(:answer) { create(:answer,user: user, question: question) }
+  let(:invalid_answer) {}
 
 
   describe 'POST #create' do
@@ -13,7 +14,9 @@ RSpec.describe AnswersController, type: :controller do
       it 'saves new answer in database' do
         params = { answer: attributes_for(:answer), question_id: question }
         expect { post :create, params: params }.to change(question.answers, :count).by(1)
+      end
 
+      it 'saves new answer in the database with user' do
         params = { answer: attributes_for(:answer), question_id: question }
         expect { post :create, params: params }.to change(user.answers, :count).by(1)
       end
@@ -45,7 +48,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context'user is not author' do
       it 'deletes answer' do
-        expect { delete :destroy, params: {question_id: question, id: answer} }.to change(Answer, :count)        
+        expect { delete :destroy, params: {question_id: question, id: answer} }.to change(Answer, :count)
       end
     end
   end

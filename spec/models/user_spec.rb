@@ -6,14 +6,14 @@ RSpec.describe User do
   it { should have_many(:questions).dependent(:destroy)}
   it { should have_many(:answers) }
 
-  describe '#author_of?' do
+  describe 'author_of?' do
     let (:user) { create(:user) }
     let (:not_author_user) { create(:user) }
     let (:question) { create(:question, user: user) }
 
     context 'user is an author of the question' do
       it 'returns true' do
-        expect(user.author_of?(question)).to be true
+        expect(user).to be_author_of(question)
       end
     end
 

@@ -25,11 +25,11 @@ I want to be able to delete answer to a question
     sign_in(not_author)
 
     visit question_path(question)
-    expect(page).to_not have_content 'Delete Answer'
+    expect(page).to_not have_link 'Delete Answer'
   end
 
   scenario 'Non-authenticated user cant delete question' do
     visit question_path(question)
-    expect(page).to_not have_content 'Delete Answer'
+    expect(page).to_not have_link 'Delete Answer'
   end
 end

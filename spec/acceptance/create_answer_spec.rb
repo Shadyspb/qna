@@ -17,6 +17,7 @@ feature 'Create answer', %q{
     click_on 'Answer'
 
     expect(page).to have_content 'Your Answer created successfully'
+    expect(page).to have_content 'Answer for the question'
   end
 
   scenario 'User create answer with invalid attributes' do
@@ -26,7 +27,8 @@ feature 'Create answer', %q{
     fill_in 'Your Answer', with: ' '
     click_on 'Answer'
 
-    expect(page).to have_content "Something is wrong"
+    expect(page).to have_content "Answer not create"
+    expect(page).to have_content "Body can't be blank"
   end
 
   scenario 'Non-authenticated user create answer' do

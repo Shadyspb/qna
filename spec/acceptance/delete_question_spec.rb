@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 
-feature 'Dele question', %q{
+feature 'Delete question', %q{
 In order to delete question
 As an authenticated user and an author of the question
 I want to be able to delete question
@@ -26,12 +26,12 @@ I want to be able to delete question
 
     visit question_path(question)
 
-    expect(page).to_not have_content 'Delete Question'
+    expect(page).to_not have_link 'Delete Question'
   end
 
   scenario 'Non-authenticated user cant delete question' do
     visit question_path(question)
 
-    expect(page).to_not have_content 'Delete Question'
+    expect(page).to_not have_link 'Delete Question'
   end
 end

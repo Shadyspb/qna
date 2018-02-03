@@ -11,8 +11,8 @@ class AnswersController < ApplicationController
       flash[:notice] = 'Your Answer created successfully'
       redirect_to @question
     else
-      flash[:notice] = 'Something is wrong'
-      render :new
+      flash[:notice] = 'Answer not create'
+      render 'questions/show'
     end
   end
 
