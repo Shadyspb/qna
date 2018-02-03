@@ -6,9 +6,7 @@ div
   = link_to 'Delete Question', question_path(@question), method: :delete
 
 div class="answers"
-  = render 'answers'
-
-
+  = render @question.answers
 
 - if user_signed_in?
   = form_for [ @question, @answer ], remote: true do |form|
