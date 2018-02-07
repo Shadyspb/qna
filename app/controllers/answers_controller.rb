@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_question, only: [:create, :destroy]
-  before_action :load_answer, only: [:destroy]
+  before_action :load_answer, only: [:destroy, :update, :best_answer ]
 
   def create
     @answer = current_user.answers.new(answer_params)
@@ -10,18 +10,29 @@ class AnswersController < ApplicationController
     if @answer.save
       flash[:notice] = 'Your Answer created successfully'
     else
-      flash[:notice] = 'Answer not create'
+      render 'errors', notice:  'Answer not create'
     end
+  end
+
+  def update
+    @answer.update(answer_params) if current_user.author_of?(@answer)
+    @question = @answer.question
+  end
+
+  def best_answer
+    if current_user.author_of?(@answer.question)
+      @answer.mark_best
+    end
+    @question = @answer.question
   end
 
   def destroy
     if current_user.author_of?(@answer)
       @answer.destroy
-      flash[:notice] = 'Answer successfully deleted.'
      else
-      flash[:notice] = 'Only author of the answer can delete it'
+      flash.now[:notice] = 'Only an author of the answer can delete it'
+      render 'common/messages'
     end
-    redirect_to question_path(@question)
   end
 
   private

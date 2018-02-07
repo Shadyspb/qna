@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Delete answer', %q{
 In order to delete outdated or incorrect answer
@@ -11,24 +11,24 @@ I want to be able to delete answer to a question
   given(:question) { create(:question, user: author) }
   given!(:answer) { create(:answer, question: question, user: author) }
 
-  scenario 'The author question delete it' do
+  scenario 'The author question delete it', js: true do
     sign_in(author)
 
     visit question_path(question)
-    click_on 'Delete Answer'
-
-    expect(page).to have_content 'Answer successfully deleted.'
-    expect(page).not_to have_content answer.body
+    accept_alert do
+      click_on 'Delete Answer'
+      expect(page).to_not have_content answer.body
+    end
   end
 
-  scenario 'Not author cant delete question' do
+  scenario 'Not author cant delete answer' do
     sign_in(not_author)
 
     visit question_path(question)
     expect(page).to_not have_link 'Delete Answer'
   end
 
-  scenario 'Non-authenticated user cant delete question' do
+  scenario 'Non-authenticated user cant delete answer' do
     visit question_path(question)
     expect(page).to_not have_link 'Delete Answer'
   end
