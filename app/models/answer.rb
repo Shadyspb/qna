@@ -1,13 +1,13 @@
 class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :user
-  has_many :attachments, as: :attachmentable
-
+  has_many :attachments, as: :attachable, dependent: :destroy
+  
   validates :body, presence: true
 
   scope :sort_by_best, -> {order(best: :desc)}
 
-  accepts_nested_attributes_for :attachments
+  accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
   def mark_best
     transaction do

@@ -1,6 +1,6 @@
 class FileUploader < CarrierWave::Uploader::Base
-  delegate :identifier, to: :file
-  
+  delegate :identifier, to: :file, allow_nil: true
+
   storage :file
 
   def store_dir

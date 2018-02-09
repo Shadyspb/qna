@@ -7,14 +7,14 @@ I'd like to be able to attach files'
 } do
 
 given(:user) { create (:user) }
-givem(:question) {create(:question)}
+given(:question) {create(:question)}
 
 background do
     sign_in(user)
     visit new_question_path(question)
   end
 
-  scenario 'User adds file when asks question' do
+  scenario 'User adds file when asks question', js: true do
     fill_in 'Your answer', with: 'My answer'
     attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
     click_on 'Create'
