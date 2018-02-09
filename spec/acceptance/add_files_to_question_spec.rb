@@ -11,11 +11,11 @@ given(:user) { create (:user) }
 background do
     sign_in(user)
     visit new_question_path
-    fill_in 'Title', with: 'Test question'
-    fill_in 'Body', with: 'text text'
   end
 
   scenarion 'User adds file when asks question' do
+    fill_in 'Title', with: 'Test question'
+    fill_in 'Body', with: 'text text'
     attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
     click_on 'Create'
 
