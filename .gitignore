@@ -13,6 +13,9 @@
 !/log/.keep
 !/tmp/.keep
 
+# Ignore uploaded files
+/public/uploads
+
 config/database.yml
 
 /node_modules
