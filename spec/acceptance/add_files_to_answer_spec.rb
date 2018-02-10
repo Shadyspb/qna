@@ -6,10 +6,10 @@ As an author the answers
 I'd like to be able to attach files'
 } do
 
-given(:user) { create (:user) }
-given(:question) {create(:question)}
+  given(:user) { create (:user) }
+  given(:question) {create(:question)}
 
-background do
+  background do
     sign_in(user)
     visit new_question_path(question)
   end

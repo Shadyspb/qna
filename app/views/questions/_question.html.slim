@@ -1,6 +1,5 @@
 h4= question.title
 p= question.body
-p Attachments:
 =render 'common/attachment_list', resource: @question
 
   - if current_user&.author_of?(question)

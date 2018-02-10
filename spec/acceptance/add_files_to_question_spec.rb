@@ -6,9 +6,9 @@ As an author the question
 I'd like to be able to attach files'
 } do
 
-given(:user) { create (:user) }
+  given(:user) { create (:user) }
 
-background do
+  background do
     sign_in(user)
     visit new_question_path
   end
