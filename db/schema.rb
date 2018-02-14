@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180209213930) do
+ActiveRecord::Schema.define(version: 20180214175313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,7 +62,20 @@ ActiveRecord::Schema.define(version: 20180209213930) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.integer "vote", default: 0, null: false
+    t.string "appraised_type"
+    t.bigint "appraised_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["appraised_id", "appraised_type", "user_id"], name: "index_votes_on_appraised_id_and_appraised_type_and_user_id", unique: true
+    t.index ["appraised_id", "appraised_type"], name: "index_votes_on_appraised_id_and_appraised_type"
+    t.index ["user_id"], name: "index_votes_on_user_id"
+  end
+
   add_foreign_key "answers", "questions", on_delete: :cascade
   add_foreign_key "answers", "users"
   add_foreign_key "questions", "users", on_delete: :cascade
+  add_foreign_key "votes", "users", on_delete: :cascade
 end

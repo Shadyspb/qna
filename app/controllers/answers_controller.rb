@@ -1,17 +1,19 @@
 class AnswersController < ApplicationController
+  include Voting
+  
   before_action :authenticate_user!
-  before_action :load_question, only: [:create, :destroy]
+  before_action :load_question, only: [:create, :destroy, :best_answer]
   before_action :load_answer, only: [:destroy, :update, :best_answer ]
 
   def create
-    @answer = current_user.answers.new(answer_params)
-    @answer.question = @question
-
-    if @answer.save
-      flash[:notice] = 'Your Answer created successfully'
-    else
-      render 'errors', notice:  'Answer not create'
-    end
+    @question = Question.find(params[:question_id])
+    @answer = @question.answers.new(answer_params)
+    @answer.user = current_user
+    flash[:notice] = if @answer.save
+                      'Answer save successfully'
+                     else
+                      'Your question has wrong params'
+                     end
   end
 
   def update
@@ -38,7 +40,7 @@ class AnswersController < ApplicationController
   private
 
   def load_question
-    @question = Question.find(params[:question_id])
+    @question = @answer.question
   end
 
   def load_answer

@@ -9,4 +9,8 @@ FactoryBot.define do
       body nil
     end
   end
+
+  factory :question_with_vote, parent: :question do
+    after(:create) { |question| create(:vote, appraised: question)}
+  end
 end
