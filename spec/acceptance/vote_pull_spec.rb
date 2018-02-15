@@ -10,7 +10,7 @@ feature 'Votings, votes', %q{
   given(:question) { create(:question, user: author) }
   given!(:author_answer) { create(:answer, user: author, question: question) }
   given!(:user_answer) { create(:answer, user: user, question: question) }
-  given(:question_with_vote) { create(:question_with_voting, user: author) }
+  given(:question_with_vote) { create(:question_with_vote, user: author) }
 
   describe 'Question vote' do
     before do

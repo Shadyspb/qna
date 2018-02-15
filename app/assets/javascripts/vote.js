@@ -7,7 +7,7 @@ $(document).on('turbolinks:load', function () {
   };
 
   var afterVote = function ($parent, data){
-    $parent.find('.vote_score').text(data.voting);
+    $parent.find('.vote_score').text(data.vote);
     $parent.find('#vote-reset-btn').toggle();
     $parent.find('#vote-up-btn').toggle();
     $parent.find('#vote-down-btn').toggle();
