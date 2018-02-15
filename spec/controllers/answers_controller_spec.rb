@@ -6,6 +6,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:other_user) { create(:user) }
   let(:question) { create(:question, user: user) }
   let(:answer) { create(:answer,user: user, question: question) }
+  let(:comment) { attributes_for(:comment) }
   let(:other_answer) { create(:answer, user: other_user, question: question) }
 
   describe 'POST #create' do
@@ -104,6 +105,13 @@ RSpec.describe AnswersController, type: :controller do
       choose_best_answer
       answer.reload
       expect(answer).to be_best
+    end
+  end
+
+  describe 'POST #comment' do
+    sign_in_user
+    it 'create a new comment for answer' do
+      expect{ post :comment, params: { id: answer, comment: comment }}.to change(answer.comments, :count).by(1)
     end
   end
 end

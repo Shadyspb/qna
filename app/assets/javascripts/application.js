@@ -14,5 +14,7 @@
 //= require rails-ujs
 //= require jquery.remotipart
 //= require cocoon
+//= require skim
+//= require_tree ./templates
 //= require turbolinks
 //= require_tree .

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180214175313) do
+ActiveRecord::Schema.define(version: 20180215193643) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,18 @@ ActiveRecord::Schema.define(version: 20180214175313) do
     t.string "attachable_type"
     t.index ["attachable_id"], name: "index_attachments_on_attachable_id"
     t.index ["attachable_type"], name: "index_attachments_on_attachable_type"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "body"
+    t.string "commented_type"
+    t.bigint "commented_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["commented_id", "commented_type", "user_id"], name: "index_comments_on_commented_id_and_commented_type_and_user_id"
+    t.index ["commented_id", "commented_type"], name: "index_comments_on_commented_id_and_commented_type"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -76,6 +88,7 @@ ActiveRecord::Schema.define(version: 20180214175313) do
 
   add_foreign_key "answers", "questions", on_delete: :cascade
   add_foreign_key "answers", "users"
+  add_foreign_key "comments", "users", on_delete: :cascade
   add_foreign_key "questions", "users", on_delete: :cascade
   add_foreign_key "votes", "users", on_delete: :cascade
 end

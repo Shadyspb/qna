@@ -38,4 +38,22 @@ feature 'Create answer', %q{
     expect(page).to_not have_content 'Your Answer'
     expect(page).to_not have_content 'Answer'
   end
+
+  context 'multiple users' do
+    scenario 'All users view new answer dynamically', js: true do
+
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+        fill_in 'answer_body', with: 'Answer test of question test'
+        click_on 'Post'
+        expect(page).to have_content 'Answer test of question test'
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+        expect(page).to have_content 'Answer test of question test'
+      end
+    end
+  end
 end

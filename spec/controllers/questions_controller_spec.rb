@@ -5,6 +5,7 @@ RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question, user: user) }
   let(:another_user) { create(:user) }
   let(:foreign_question) { create(:question, user: another_user) }
+  let(:comment) { attributes_for(:comment) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2, user: user) }
@@ -176,6 +177,13 @@ RSpec.describe QuestionsController, type: :controller do
     it 'redirects to index view' do
       delete :destroy, params: {id: question}
       expect(response).to redirect_to questions_path
+    end
+  end
+
+  describe 'POST #comment' do
+    sign_in_user
+    it 'create a new comment for question' do
+      expect{ post :comment, params: { id: question, comment: comment }}.to change(question.comments, :count).by(1)
     end
   end
 end

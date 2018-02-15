@@ -1,6 +1,7 @@
 class Answer < ApplicationRecord
   include Voted
-  
+  include Commented
+
   belongs_to :question
   belongs_to :user
   has_many :attachments, as: :attachable, dependent: :destroy

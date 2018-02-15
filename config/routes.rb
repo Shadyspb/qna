@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
   devise_for :users
   root 'questions#index'
+  mount ActionCable.server => '/cable'
+
+  concern :commented do
+    member do
+      post :comment
+    end
+  end
 
   concern :votes do
    member do
@@ -10,8 +17,8 @@ Rails.application.routes.draw do
      end
    end
 
-  resources :questions, shallow: true, concerns: :votes do
-   resources :answers, only: [:create, :destroy, :update], concerns: :votes do
+  resources :questions, shallow: true, concerns: [:votes, :commented] do
+   resources :answers, only: [:create, :destroy, :update], concerns: [:votes,:commented]  do
      post :best_answer, on: :member
    end
   end

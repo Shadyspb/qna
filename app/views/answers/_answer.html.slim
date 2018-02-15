@@ -3,7 +3,8 @@
     p= answer.body
     =render 'common/attachment_list', resource: answer
     =render 'common/vote', resource: answer
-
+    =render 'common/comments', resource: answer, url: comment_answer_path(answer)
+    
     p= answer.updated_at.to_s
     - if current_user&.author_of?(answer)
       div

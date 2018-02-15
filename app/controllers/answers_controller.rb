@@ -1,9 +1,11 @@
 class AnswersController < ApplicationController
   include Voting
-  
+  include Comentabled
+
   before_action :authenticate_user!
   before_action :load_question, only: [:create, :destroy, :best_answer]
   before_action :load_answer, only: [:destroy, :update, :best_answer ]
+  after_action :publish_answer, only: [:create]
 
   def create
     @question = Question.find(params[:question_id])
@@ -38,6 +40,14 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def publish_answer
+    return if @answer.errors.any?
+    attachments = @answer.attachments.map do |a|
+      { id: a.id, url: a.file.url, name: a.file.identifier }
+    end
+    ActionCable.server.broadcast("answers_#{@question.id}", answer: @answer, attachments: attachments)
+  end
 
   def load_question
     @question = @answer.question

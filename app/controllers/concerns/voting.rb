@@ -35,5 +35,6 @@ module Voting
 
   def load_item
     @item = controller_name.classify.constantize.find(params[:id])
+    puts "@item"
   end
 end
