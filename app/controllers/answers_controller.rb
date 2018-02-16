@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  respond_to :js, only: %i[create destroy update]
   include Voting
   include Comentabled
 
@@ -11,16 +12,11 @@ class AnswersController < ApplicationController
     @question = Question.find(params[:question_id])
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
-    flash[:notice] = if @answer.save
-                      'Answer save successfully'
-                     else
-                      'Your question has wrong params'
-                     end
+    respond_with(@answer.save)
   end
 
   def update
-    @answer.update(answer_params) if current_user.author_of?(@answer)
-    @question = @answer.question
+    respond_with(@answer.update(answer_params)) if current_user.author_of?(@answer)
   end
 
   def best_answer
@@ -31,12 +27,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
-     else
-      flash.now[:notice] = 'Only an author of the answer can delete it'
-      render 'common/messages'
-    end
+    respond_with(@answer.destroy) if current_user.author_of?(@answer)
   end
 
   private
