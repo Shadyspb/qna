@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180215193643) do
+ActiveRecord::Schema.define(version: 20180217233009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,16 @@ ActiveRecord::Schema.define(version: 20180215193643) do
     t.string "attachable_type"
     t.index ["attachable_id"], name: "index_attachments_on_attachable_id"
     t.index ["attachable_type"], name: "index_attachments_on_attachable_type"
+  end
+
+  create_table "authorizations", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "provider"
+    t.string "uid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider", "uid"], name: "index_authorizations_on_provider_and_uid"
+    t.index ["user_id"], name: "index_authorizations_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -70,6 +80,10 @@ ActiveRecord::Schema.define(version: 20180215193643) do
     t.datetime "last_sign_in_at"
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -88,6 +102,7 @@ ActiveRecord::Schema.define(version: 20180215193643) do
 
   add_foreign_key "answers", "questions", on_delete: :cascade
   add_foreign_key "answers", "users"
+  add_foreign_key "authorizations", "users"
   add_foreign_key "comments", "users", on_delete: :cascade
   add_foreign_key "questions", "users", on_delete: :cascade
   add_foreign_key "votes", "users", on_delete: :cascade

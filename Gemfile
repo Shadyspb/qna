@@ -24,6 +24,9 @@ gem 'skim'
 gem 'gon'
 gem 'sprockets'
 gem 'responders', '~> 2.0'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -46,6 +49,7 @@ group :test do
    gem 'shoulda-matchers', '~> 3.1'
    gem 'rails-controller-testing'
    gem 'launchy'
+   gem 'capybara-email'
 end
 
 

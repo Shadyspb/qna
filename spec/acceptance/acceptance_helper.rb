@@ -3,6 +3,9 @@ require 'rails_helper'
 RSpec.configure do |config|
   Capybara.javascript_driver = :webkit
   Capybara.server = :puma
+  ActionDispatch::IntegrationTest
+  Capybara.server_port = 3001
+  Capybara.app_host = 'http://localhost:3001'
 
   config.include AcceptanceHelpers, type: :feature
 

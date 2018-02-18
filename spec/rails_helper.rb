@@ -1,5 +1,6 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
+require 'capybara/email/rspec'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
@@ -30,6 +31,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.extend ControllerMacros, type: :controller
+  config.include(OmniauthMacros)
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
@@ -74,7 +76,7 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 end
-
+OmniAuth.config.test_mode = true
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     # Choose a test framework:
