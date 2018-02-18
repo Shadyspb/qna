@@ -24,7 +24,6 @@ class User < ApplicationRecord
       password = Devise.friendly_token[0, 20]
       user = User.new(email: email, password: password, password_confirmation: password)
       user.save!
-      user.create_authorization(auth)
     end
 
     user.create_authorization(auth)
@@ -32,6 +31,6 @@ class User < ApplicationRecord
   end
 
   def create_authorization(auth)
-    self.authorizations.create(provider: auth.provider, uid: auth.uid)
+    self.authorizations.create!(provider: auth.provider, uid: auth.uid)
   end
 end
