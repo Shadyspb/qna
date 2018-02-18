@@ -4,7 +4,7 @@ p= question.body
 =render 'common/vote', resource: @question
 =render 'common/comments', resource: @question, url: comment_question_path(@question)
 
-  - if current_user&.author_of?(question)
+  - if can?(:update, question)
     p= link_to 'Delete Question', question_path(question), method: :delete
     p= link_to 'Edit Question',nil, class: 'edit-question-link', data: {question_id: @question.id}
 

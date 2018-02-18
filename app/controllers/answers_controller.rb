@@ -1,5 +1,4 @@
 class AnswersController < ApplicationController
-  respond_to :js, only: %i[create destroy update]
   include Voting
   include Comentabled
 
@@ -7,6 +6,10 @@ class AnswersController < ApplicationController
   before_action :load_question, only: [:create, :destroy, :best_answer]
   before_action :load_answer, only: [:destroy, :update, :best_answer ]
   after_action :publish_answer, only: [:create]
+
+  respond_to :js, only: [:create, :destroy, :update]
+
+  authorize_resource
 
   def create
     @question = Question.find(params[:question_id])

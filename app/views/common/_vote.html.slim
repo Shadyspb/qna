@@ -1,5 +1,5 @@
 vote data-id="#{resource.id}"
-  - if user_signed_in? && ! current_user.owner_of?(resource)
+  - if can?(:vote_pull, resource)
     = button_to '-', '', remote: true, id: 'vote-down-btn', class: "#{'btn_hide' if resource.voted?(current_user)}"
     .vote_score
       =resource.vote_score

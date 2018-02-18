@@ -1,11 +1,14 @@
 class QuestionsController < ApplicationController
-  respond_to :html, :json
   include Voting
   include Comentabled
 
   before_action :authenticate_user!, except: [:index, :show, :update]
   before_action :load_question, only: [:show, :update, :destroy]
   after_action :publish_question, only: [:create]
+
+  respond_to :html, :json
+
+  authorize_resource
 
   def index
     respond_with(@questions = Question.all)

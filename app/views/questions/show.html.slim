@@ -7,7 +7,7 @@ div class="answers"
   = render @question.answers.sort_by_best
 
 
-- if user_signed_in?
+- if can?(:new, Answer)
   = form_for [ @question, @answer ], remote: true do |form|
    = form.label :body, 'Your Answer'
    = form.text_area :body
