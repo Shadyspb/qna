@@ -28,6 +28,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'cancancan'
+gem 'doorkeeper'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -51,6 +52,7 @@ group :test do
    gem 'rails-controller-testing'
    gem 'launchy'
    gem 'capybara-email'
+   gem 'json_spec'
 end
 
 
