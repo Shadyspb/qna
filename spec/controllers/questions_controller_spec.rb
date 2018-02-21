@@ -6,6 +6,7 @@ RSpec.describe QuestionsController, type: :controller do
   let(:another_user) { create(:user) }
   let(:foreign_question) { create(:question, user: another_user) }
   let(:comment) { attributes_for(:comment) }
+  let(:subscribe) { create(:subscribe, user: user, question: question)}
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2, user: user) }
@@ -128,6 +129,26 @@ RSpec.describe QuestionsController, type: :controller do
     it 'redirects to index view' do
       delete :destroy, params: {id: question}
       expect(response).to redirect_to questions_path
+    end
+  end
+
+  describe 'POST #subscribe' do
+    sign_in_user
+    subject(:create_subscription) { post :subscribe, params: { id: foreign_question.id, format: :js } }
+
+    it "subscribe for question" do
+      expect { create_subscription }.to change(user.subscriptions, :count).by(1)
+    end
+  end
+
+  describe 'DELETE #undescribe' do
+    sign_in_user
+    subject(:create_subscription) { post :subscribe, params: { id: foreign_question.id, format: :js } }
+
+    it "unsubscribe for sunscribed question" do
+      create_subscription
+
+      expect { delete :unsubscribe, params: { id: foreign_question } }.to change(user.subscriptions, :count).by(-1)
     end
   end
 

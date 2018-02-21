@@ -3,6 +3,7 @@ p= question.body
 =render 'common/attachment_list', resource: @question
 =render 'common/vote', resource: @question
 =render 'common/comments', resource: @question, url: comment_question_path(@question)
+=render 'common/subscription', resource: @question
 
   - if can?(:update, question)
     p= link_to 'Delete Question', question_path(question), method: :delete

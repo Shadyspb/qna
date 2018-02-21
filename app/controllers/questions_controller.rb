@@ -3,10 +3,11 @@ class QuestionsController < ApplicationController
   include Comentabled
 
   before_action :authenticate_user!, except: [:index, :show, :update]
-  before_action :load_question, only: [:show, :update, :destroy]
+  before_action :load_question, only: [:show, :update, :destroy, :subscribe, :unsubscribe]
   after_action :publish_question, only: [:create]
 
   respond_to :html, :json
+  respond_to :js, only: [:subscribe, :unsubscribe]
 
   authorize_resource
 
@@ -34,6 +35,14 @@ class QuestionsController < ApplicationController
 
   def destroy
     respond_with(@question.destroy) if current_user.author_of?(@question)
+  end
+
+  def subscribe
+    respond_with(@question.subscribe(current_user), template: 'common/subscribe')
+  end
+
+  def unsubscribe
+    respond_with(@question.unsubscribe(current_user), template: 'common/subscribe')
   end
 
   private
