@@ -9,4 +9,7 @@ RSpec.describe Answer, type: :model do
   it { should have_many(:comments)}
 
   it { should accept_nested_attributes_for :attachments }
+
+  let!(:object_name) { :answer }
+  it_behaves_like "model_voted"
 end

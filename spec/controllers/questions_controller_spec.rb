@@ -117,55 +117,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'POST #vote_up' do
-    sign_in_user
-    it 'vote_up for foreign question' do
-      post :vote_up, params: { id: foreign_question }
-      expect(foreign_question.vote_score).to eq 1
-    end
-
-    it 'cant vote_up double for foreign question' do
-      post :vote_up, params: { id: foreign_question }
-      post :vote_up, params: { id: foreign_question }
-      expect(response).to have_http_status(403)
-    end
-
-    it 'cant vote_up for his question' do
-      post :vote_up, params: { id: question }
-      expect(question.vote_score).to eq 0
-    end
-  end
-
-  describe 'POST #vote_down' do
-
-    sign_in_user
-    it 'vote_down for foreign question' do
-      post :vote_down, params: { id: foreign_question }
-      expect(foreign_question.vote_score).to eq -1
-    end
-
-    it 'cant vote_down double for foreign question' do
-      post :vote_down, params: { id: foreign_question }
-      post :vote_down, params: { id: foreign_question }
-      expect(response).to have_http_status(403)
-    end
-
-    it 'cant vote_down for his question' do
-      post :vote_down, params: { id: question }
-      expect(question.vote_score).to eq 0
-    end
-  end
-
-  describe 'POST #vote_reset' do
-
-    sign_in_user
-    it 'cant reset vote question' do
-      post :vote_down, params: { id: foreign_question }
-      post :vote_reset, params: { id: foreign_question }
-      expect(foreign_question.vote_score).to eq 0
-    end
-  end
-
   describe 'DELETE #destroy' do
     sign_in_user
     before { question }
@@ -180,10 +131,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'POST #comment' do
-    sign_in_user
-    it 'create a new comment for question' do
-      expect{ post :comment, params: { id: question, comment: comment }}.to change(question.comments, :count).by(1)
-    end
-  end
+  let!(:object_name) { :question }
+  it_behaves_like "commentabled"
+  it_behaves_like "voted"
 end

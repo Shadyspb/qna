@@ -108,10 +108,7 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe 'POST #comment' do
-    sign_in_user
-    it 'create a new comment for answer' do
-      expect{ post :comment, params: { id: answer, comment: comment }}.to change(answer.comments, :count).by(1)
-    end
-  end
+  let!(:object_name) { :answer }
+  it_behaves_like "commentabled"
+  it_behaves_like "voted"
 end
