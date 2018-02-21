@@ -37,7 +37,7 @@ class Ability
 
     alias_action :vote_up, :vote_down, :vote_reset, to: :vote_pull
     can :vote_pull, [Question, Answer] do |type|
-      type.user != user
+      !user.author_of?(type)
     end
   end
 end
