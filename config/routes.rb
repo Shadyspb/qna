@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   root 'questions#index'
   mount ActionCable.server => '/cable'
+  get '/search' => 'search#search'
 
   concern :commented do
     member do
