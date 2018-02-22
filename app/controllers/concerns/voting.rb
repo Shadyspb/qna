@@ -28,7 +28,7 @@ module Voting
   private
 
   def check_access?
-    if current_user.owner_of?(@item) || @item.voted?(current_user)
+    if current_user.author_of?(@item) || @item.voted?(current_user)
       head :forbidden
     end
   end

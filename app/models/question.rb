@@ -21,7 +21,7 @@ class Question < ApplicationRecord
     subscriptions.create!(subscriber: user)
   end
 
-   def unsubscribe(user)
+  def unsubscribe(user)
     subscriptions.where(subscriber: user).destroy_all
   end
 
