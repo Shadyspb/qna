@@ -26,4 +26,8 @@ module Qna
       g.fixture_replacement :factory_bot, dir: 'spec/factories'
     end
   end
+  # Load defaults from config/*.env in config
+  Dotenv.load *Dir.glob(Rails.root.join("config/**/*.env"), File::FNM_DOTMATCH)
+  # Override any existing variables if an environment-specific file exists
+  Dotenv.overload *Dir.glob(Rails.root.join("config/**/*.env.#{Rails.env}"), File::FNM_DOTMATCH)
 end
