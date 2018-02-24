@@ -10,10 +10,6 @@ Rails.application.routes.draw do
     post '/users/auth/sign_up' => 'omniauth_callbacks#sign_up'
   end
 
-  root 'questions#index'
-  mount ActionCable.server => '/cable'
-  get '/search' => 'search#search'
-
   concern :commented do
     member do
       post :comment
@@ -48,4 +44,10 @@ Rails.application.routes.draw do
       post :best_answer, on: :member
     end
   end
+
+  get '/search' => 'search#search'
+  
+  mount ActionCable.server => '/cable'
+
+  root 'questions#index'
 end
