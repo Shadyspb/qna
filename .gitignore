@@ -17,6 +17,10 @@
 /public/uploads
 
 config/database.yml
+config.sublime-workspace
+
+config/*.sphinx.conf
+db/sphinx/
 
 /node_modules
 /yarn-error.log
