@@ -49,5 +49,5 @@ Rails.application.routes.draw do
 
   mount ActionCable.server => '/cable'
 
-  root 'questions#index'
+  root to: "questions#index"
 end
