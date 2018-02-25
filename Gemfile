@@ -22,6 +22,7 @@ gem 'remotipart'
 gem "cocoon"
 gem 'skim'
 gem 'gon'
+gem 'thin'
 gem 'sprockets'
 gem 'responders', '~> 2.0'
 gem 'omniauth'
