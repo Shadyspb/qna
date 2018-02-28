@@ -1,9 +1,11 @@
 .comment
   - if resource.comments.present?
     - resource.comments.each do |comment|
-      p= comment.body
+      - cache comment do
+        p= comment.body
 - if can?(:comment, resource)
-  .comment_form
-    p= form_for([resource, resource.comments.build], url: url, remote: true) do |f|
-      = f.text_area :body
-      = f.submit 'Add comment'
+  - cache ['comment_form', resource]
+    .comment_form
+      p= form_for([resource, resource.comments.build], url: url, remote: true) do |f|
+        = f.text_area :body
+        = f.submit 'Add comment'

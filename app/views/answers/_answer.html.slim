@@ -1,24 +1,17 @@
 .answer
-  div id="answer-id-#{answer.id}" class="#{'best-answer' if answer.best?}"
-    p= answer.body
-    =render 'common/attachment_list', resource: answer
-    =render 'common/vote', resource: answer
-    =render 'common/comments', resource: answer, url: comment_answer_path(answer)
-
-    p= answer.updated_at.to_s
-    - if can?(:update, answer)
-      div
-        div#messages
-        p= link_to 'Delete Answer',answer , remote: true, method: :delete, data: { confirm: "Are you sure you wnt to delete this answer?" }
-        p= link_to 'Edit Answer', nil, class: 'edit-answer-link', data: {answer_id: answer.id}
-
-
-        =form_for answer, remote: true do |f|
-          div id="answer-errors-#{answer.id}"
-          = f.label :body, 'Edit Your Answer'
-          = f.text_area :body
-          = render 'common/edit_attachment_form', f: f
-          = link_to 'Cancel', nil, data: { 'cancel-edit-id': answer.id }, class: 'btn-cancel-edit-answer'
-          = f.submit 'Save', class: 'btn-save-updated-answer'
-    - if can?(:best_answer, answer)
-  p= button_to 'Best Answer', best_answer_answer_path(answer), remote: true
+    div id="answer-id-#{answer.id}" class=('best_answer' if answer.best?)
+      p= answer.body
+      =render 'common/file_list', resource: answer
+      =render 'common/voting', resource: answer
+      =render 'common/comments', resource: answer, url: comment_answer_path(answer)
+      - if can?(:update, answer)
+        p= link_to 'Delete Answer', answer_path(answer), remote: true, method: :delete, data: { confirm: "You sure?" }
+        p= link_to 'Edit', '', class: 'edit-answer-button', id: 'edit-answer-button', data: { 'edit-id': answer.id }
+        =form_for answer, remote: true do |form|
+          = form.label :body, 'Update answer:'
+          = form.text_area :body
+          .files
+            = render 'common/edit_file_field', form: form
+          = form.submit 'Save'
+      - if can?(:best_answer, answer)
+        p= button_to 'Best answer', best_answer_answer_path(answer), remote: true

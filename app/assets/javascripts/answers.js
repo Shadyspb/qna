@@ -1,16 +1,10 @@
-$(document).on('turbolinks:load',function() {
-  $('.answers').on('click','.edit-answer-link', function(e) {
-    e.preventDefault();
-    var editLink = $(this);
-    var answerId =  editLink.data('answerId');
-    editLink .hide();
-    var answer = $('#edit_answer_'+answerId);
-    answer.show();
+$(document).on('turbolinks:load', function () {
+  var $answers = $('.answers');
 
-    $('.btn-cancel-edit-answer').on('click', function(e) {
-      e.preventDefault();
-      answer.hide();
-      editLink.show();
-    });
+  $answers.on('click', '#edit-answer-button', function (e) {
+    e.preventDefault();
+    var answerId = $(this).data('edit-id');
+    $(this).hide();
+    $('#edit_answer_' + answerId).show();
   });
 });

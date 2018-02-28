@@ -15,6 +15,8 @@ class Answer < ApplicationRecord
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
   def mark_best
+    return if reload.best?
+
     transaction do
       question.answers.update_all(best: false)
       reload.update!(best: true)

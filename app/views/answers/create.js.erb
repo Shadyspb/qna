@@ -1,9 +1,9 @@
 <% if @answer.errors.present? %>
   <% @answer.errors.full_messages.each do |message| %>
-    $('#answer-errors-<%= @answer.id %>').html('<%= j message %>');
-  <% end %>
+    $('#errors').html('<%= j render 'common/errors', resource: @answer %>');
+<% end %>
 <% else %>
-  $('#answer_body').val('');
+  $('#errors') .empty()
   $('.answers').append('<%= j render @answer %>');
-  $('#errors').html('');
-<%end%>
+  $('#answer_body').val('');
+<% end %>

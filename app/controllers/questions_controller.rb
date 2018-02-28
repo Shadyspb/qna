@@ -16,12 +16,13 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answer = Answer.new
+    @answer = @question.answers.build
     @answer.attachments.build
-    gon.author_of = @question.user_id == (current_user && current_user.id)
+    gon.question_owner = @question.user_id == (current_user && current_user.id)
   end
 
   def new
+    @question = Question.new
     respond_with(@question.attachments.build)
   end
 

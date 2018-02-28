@@ -12,7 +12,7 @@ $(document).on('turbolinks:load', function () {
     $parent.find('#vote-up-btn').toggle();
     $parent.find('#vote-down-btn').toggle();
   };
-//questions
+  
   $question.on('click', '#vote-reset-btn', function (e) {
     e.preventDefault();
     $parent = $(this).closest('.vote');

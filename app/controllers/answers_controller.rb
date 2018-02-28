@@ -3,11 +3,11 @@ class AnswersController < ApplicationController
   include Comentabled
 
   before_action :authenticate_user!
-  before_action :load_question, only: [:create, :destroy, :best_answer]
-  before_action :load_answer, only: [:destroy, :update, :best_answer ]
-  after_action :publish_answer, only: [:create]
+  before_action :load_answer, only: %i[destroy update best_answer]
+  before_action :load_question, only: %i[update destroy best_answer]
+  after_action :publish_answer, only: %i[create]
 
-  respond_to :js, only: [:create, :destroy, :update]
+  respond_to :js, only: %i[create destroy update]
 
   authorize_resource
 
@@ -23,10 +23,8 @@ class AnswersController < ApplicationController
   end
 
   def best_answer
-    if current_user.author_of?(@answer.question)
-      @answer.mark_best
-    end
-    @question = @answer.question
+    @answer = @question.answers.find(params[:id])
+    @answer.mark_best
   end
 
   def destroy
